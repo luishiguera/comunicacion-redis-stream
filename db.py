@@ -41,10 +41,10 @@ def create_registry(db: Session, registry: RegistryCreate):
         db.refresh(db_registry)
         
         stream = 'data-entry'
-        #redisDatabase.xadd(stream, {'data': ''})
+        redisDatabase.xadd(stream, {'data': ''})
         cg = redisDatabase.consumer_group('cg-energy', stream)
-        #cg.create()  # Create the consumer group.
-        #cg.set_id('$')
+        cg.create()  # Create the consumer group.
+        cg.set_id('$')
         cg.data_entry.add({'data': registry.kwh})
         
         return db_registry
